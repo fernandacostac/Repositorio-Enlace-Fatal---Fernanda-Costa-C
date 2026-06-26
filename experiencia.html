@@ -7,9 +7,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Tourney:wght@900&family=Space+Mono:wght@400;700&display=swap');
 
-/* ══════════════════════════════════════
-   RESET & VARIABLES (idénticas a index.html)
-══════════════════════════════════════ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
@@ -45,7 +42,7 @@ body {
 img { max-width: 100%; display: block; }
 
 /* ══════════════════════════════════════
-   NAV (idéntico a index.html)
+   NAV
 ══════════════════════════════════════ */
 nav {
   position: fixed;
@@ -84,10 +81,10 @@ nav {
 .nav-links a.actual { color: var(--accent); }
 
 /* ══════════════════════════════════════
-   HEADER DE LA EXPERIENCIA
+   HEADER
 ══════════════════════════════════════ */
 .exp-header {
-  padding: 140px 40px 24px;
+  padding: 140px 40px 0;
   max-width: 1100px;
   margin: 0 auto;
   text-align: center;
@@ -127,7 +124,48 @@ nav {
 }
 
 /* ══════════════════════════════════════
-   STAGE — área de juego
+   SELECTOR DE EXPERIMENTACIÓN (pestañas)
+══════════════════════════════════════ */
+.tabs-wrap {
+  max-width: 760px;
+  margin: 36px auto 0;
+  padding: 0 24px;
+  display: flex;
+  justify-content: center;
+}
+.tabs {
+  display: inline-flex;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  gap: 4px;
+}
+.tab-btn {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active {
+  background: var(--accent);
+  color: var(--negro);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ══════════════════════════════════════
+   EXPERIMENTACIÓN 1 — construir la red
 ══════════════════════════════════════ */
 .stage-wrap {
   max-width: 760px;
@@ -159,7 +197,6 @@ nav {
   pointer-events:none;
 }
 
-/* HUD */
 #hud {
   position: relative;
   z-index: 5;
@@ -189,7 +226,6 @@ nav {
   font-weight: 700;
 }
 
-/* Selector de color de jugador (una sola elección, estilo hero) */
 #selector-color-wrap {
   position: relative;
   z-index: 5;
@@ -225,7 +261,6 @@ nav {
 .sw-azul    { background: var(--azul);    color: var(--azul); }
 .sw-coral   { background: var(--coral);   color: var(--coral); }
 
-/* Tablero: canvas absoluto para la red ramificada */
 #tablero {
   position: relative;
   flex: 1;
@@ -245,7 +280,6 @@ nav {
   width: 78px;
   height: auto;
   filter: drop-shadow(0 10px 18px rgba(0,0,0,0.7));
-  /* posicionado por JS: left/top calculados respecto al centro del tablero */
 }
 .frag-colocado {
   position: absolute;
@@ -265,7 +299,6 @@ nav {
   50%     { filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)) hue-rotate(2deg); }
 }
 
-/* Puntos de anclaje resaltados mientras se arrastra */
 .punto-anclaje {
   position: absolute;
   width: 16px;
@@ -294,7 +327,6 @@ nav {
   50%     { box-shadow: 0 0 0 5px rgba(255,255,255,0.06); }
 }
 
-/* Bandeja inferior */
 #bandeja-wrap {
   position: relative;
   z-index: 5;
@@ -345,7 +377,6 @@ nav {
 }
 .fragmento.bloqueado { cursor: not-allowed; }
 
-/* Mensaje flash */
 #mensaje-flash {
   position: absolute;
   top: 12px;
@@ -362,7 +393,6 @@ nav {
 }
 #mensaje-flash.show { opacity: 1; }
 
-/* Pantalla de victoria */
 #victoria-panel {
   position: absolute;
   inset: 0;
@@ -412,9 +442,6 @@ nav {
 }
 #btn-reiniciar:hover { background: var(--accent); color: var(--negro); }
 
-/* ══════════════════════════════════════
-   PIE DE LA EXPERIENCIA — leyenda de reglas
-══════════════════════════════════════ */
 .exp-footer-note {
   max-width: 760px;
   margin: 28px auto 0;
@@ -437,6 +464,115 @@ nav {
 }
 .nota-chip .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
+/* ══════════════════════════════════════
+   EXPERIMENTACIÓN 2 — gravedad (lúdica)
+══════════════════════════════════════ */
+.grav-wrap {
+  max-width: 760px;
+  margin: 32px auto 0;
+  padding: 0 24px;
+}
+#grav-stage {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 600px;
+}
+#grav-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: none;
+}
+#grav-label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+  z-index: 3;
+}
+#grav-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  color: var(--muted);
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 0.6s ease;
+}
+#grav-hint.fade { opacity: 0; }
+#grav-cursor-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+}
+#grav-toast {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translate(-50%, -8px) scale(0.92);
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 10px 18px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#grav-toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+#grav-intro {
+  position: absolute; inset: 0;
+  background: rgba(10,10,10,0.94);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center; padding: 32px; z-index: 9;
+}
+#grav-intro.hide { display: none; }
+#grav-intro .eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+}
+#grav-intro h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem; margin: 0; font-weight: 900; max-width: 460px; line-height: 1.35;
+  color: var(--text);
+}
+#grav-intro p {
+  font-size: 0.85rem; color: var(--muted); max-width: 420px; line-height: 1.7; margin: 0;
+}
+#grav-intro button {
+  margin-top: 8px; padding: 12px 28px; border: none; border-radius: 4px;
+  background: var(--accent); color: var(--negro); font-family: var(--font-display); font-size: 0.72rem;
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer;
+}
+
+/* ══════════════════════════════════════
+   CTA + FOOTER
+══════════════════════════════════════ */
 .exp-cta {
   text-align: center;
   margin: 56px auto 0;
@@ -458,9 +594,6 @@ nav {
 }
 .exp-cta a:hover { background: var(--violeta); color: var(--negro); }
 
-/* ══════════════════════════════════════
-   FOOTER (idéntico a index.html)
-══════════════════════════════════════ */
 footer {
   border-top: 1px solid var(--border);
   padding: 36px 40px;
@@ -490,7 +623,7 @@ footer {
 }
 
 @media (max-width: 768px) {
-  .exp-header { padding: 120px 20px 16px; }
+  .exp-header { padding: 120px 20px 0; }
   .exp-cta { padding: 0 20px 80px; }
 }
 @media (max-width: 480px) {
@@ -499,6 +632,7 @@ footer {
   .frag-colocado { width: 40px; }
   .fragmento { width: 56px; }
   #bandeja { gap: 10px; }
+  #grav-stage { height: 480px; }
   footer { flex-direction: column; align-items: flex-start; text-align: left; padding-right: 24px; }
   .footer-credit { text-align: left; }
 }
@@ -513,7 +647,6 @@ footer {
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
 <nav>
   <ul class="nav-links">
     <li><a href="index.html#que-es">¿Qué es?</a></li>
@@ -524,73 +657,107 @@ footer {
   </ul>
 </nav>
 
-<!-- ══ HEADER ══ -->
 <div class="exp-header">
   <div class="section-label"><span>06</span> Experimenta</div>
   <h1>¡Experimenta, <em>construye tu red!</em></h1>
-  <p>Arrastra el fragmento activo hasta tu origen y ánclalo. Cada conexión te acerca a la cima, pero también te hace más frágil.</p>
+  <p>Dos formas distintas de sentir el mismo principio: cada conexión te acerca a la cima, pero también te hace más frágil.</p>
 </div>
 
-<!-- ══ STAGE: ÁREA DE JUEGO ══ -->
-<div class="stage-wrap">
-  <div id="stage">
-
-    <div id="mensaje-flash"></div>
-
-    <div id="hud">
-      <div class="stat">Nivel <b id="hud-nivel">1</b></div>
-      <div class="titulo">TU RED</div>
-      <div class="stat">Pasos <b id="hud-pasos">0</b></div>
-    </div>
-
-    <div id="selector-color-wrap">
-      <div id="selector-color-label">Elige tu color</div>
-      <div id="selector-color">
-        <button class="color-swatch sw-verde" data-color="verde" aria-label="Verde"></button>
-        <button class="color-swatch sw-violeta" data-color="violeta" aria-label="Violeta"></button>
-        <button class="color-swatch sw-azul" data-color="azul" aria-label="Azul"></button>
-        <button class="color-swatch sw-coral" data-color="coral" aria-label="Coral"></button>
-      </div>
-    </div>
-
-    <div id="tablero">
-      <div id="red-canvas">
-        <svg id="origen-base" viewBox="0 0 240 502" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <path d="M 114.3 16.3 L 114.3 422.2 L 99.3 428.7 L 94.0 428.7 L 91.1 426.7 L 91.1 397.4 L 91.1 419.0 L 85.4 419.4 L 83.8 418.2 L 83.8 393.8 L 85.8 393.4 L 76.5 387.7 L 67.5 379.9 L 66.7 369.8 L 48.0 377.5 L 1.6 405.6 L 0.0 408.4 L 0.0 419.0 L 1.2 420.6 L 0.8 438.9 L 2.0 441.8 L 57.8 500.7 L 181.4 502.0 L 185.9 498.7 L 238.8 438.5 L 240.0 407.2 L 238.8 403.9 L 204.6 384.4 L 177.4 371.8 L 162.3 368.1 L 161.9 362.8 L 156.2 364.9 L 133.0 382.8 L 136.7 383.2 L 136.7 397.8 L 137.1 383.2 L 141.2 377.9 L 148.5 373.4 L 153.8 373.8 L 153.8 404.3 L 142.8 412.5 L 142.8 424.7 L 136.7 425.1 L 136.7 414.9 L 136.7 427.5 L 135.5 428.7 L 130.2 428.7 L 114.7 421.8 Z" fill="#101018" stroke="#1c1c2e" stroke-width="1.5"/>
-          <path id="origen-relleno" d="M 107.8 0.0 L 103.7 1.6 L 103.7 15.1 L 91.1 17.5 L 89.5 19.1 L 89.9 67.1 L 70.8 95.2 L 71.2 132.2 L 77.3 134.2 L 77.3 139.1 L 72.0 141.2 L 83.4 152.9 L 83.4 158.2 L 72.0 174.9 L 75.7 177.4 L 75.7 182.2 L 70.8 184.3 L 72.4 217.6 L 64.7 230.6 L 65.1 264.8 L 67.5 266.4 L 66.7 272.9 L 84.2 286.8 L 84.2 325.8 L 67.9 348.6 L 67.9 379.9 L 78.1 387.7 L 80.5 388.1 L 84.2 392.1 L 84.2 418.2 L 91.5 421.0 L 91.9 427.1 L 96.8 429.2 L 111.9 423.1 L 118.4 423.1 L 133.0 429.2 L 142.4 424.7 L 142.4 412.5 L 153.4 404.3 L 153.8 366.5 L 162.3 362.0 L 162.7 325.8 L 159.5 320.5 L 159.5 314.8 L 162.7 310.8 L 162.7 293.3 L 144.8 277.8 L 144.8 272.5 L 160.3 258.3 L 160.7 229.4 L 143.2 211.9 L 143.2 184.3 L 150.9 176.9 L 151.3 172.1 L 164.7 155.4 L 160.7 153.4 L 160.7 148.5 L 165.2 146.0 L 165.2 109.0 L 172.9 100.1 L 173.3 69.2 L 167.6 67.1 L 167.6 62.2 L 173.3 60.2 L 140.3 4.5 L 125.3 2.4 L 121.2 0.4 Z" fill="#82C682" stroke="#0a0a0a" stroke-width="1.4"/>
-        </svg>
-      </div>
-    </div>
-
-    <div id="bandeja-wrap">
-      <div id="bandeja-label">Elige cualquier fragmento y arrástralo a tu origen.</div>
-      <div id="bandeja-placeholder" class="show">Elige tu color para ver tus fragmentos.</div>
-      <div id="bandeja"></div>
-    </div>
-
-    <div id="victoria-panel">
-      <h2>¡Red completada!</h2>
-      <p>Ascendiste sin tocar el vacío. Completaste la experiencia en <span class="pasos-final" id="victoria-pasos">0</span> pasos.</p>
-      <button id="btn-reiniciar">Jugar de nuevo</button>
-    </div>
-
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="exp1">Experimentación 1</button>
+    <button class="tab-btn" data-tab="exp2">Experimentación 2 — Gravedad</button>
   </div>
 </div>
 
-<!-- ══ LEYENDA DE REGLAS ══ -->
-<div class="exp-footer-note">
-  <div class="nota-chip"><span class="dot" style="background:var(--verde)"></span>Verde</div>
-  <div class="nota-chip"><span class="dot" style="background:var(--violeta)"></span>Violeta</div>
-  <div class="nota-chip"><span class="dot" style="background:var(--azul)"></span>Azul</div>
-  <div class="nota-chip"><span class="dot" style="background:var(--coral)"></span>Coral</div>
+<!-- ══════════ PANEL 1: construir la red ══════════ -->
+<div class="tab-panel active" id="panel-exp1">
+
+  <div class="stage-wrap">
+    <div id="stage">
+
+      <div id="mensaje-flash"></div>
+
+      <div id="hud">
+        <div class="stat">Nivel <b id="hud-nivel">1</b></div>
+        <div class="titulo">TU RED</div>
+        <div class="stat">Pasos <b id="hud-pasos">0</b></div>
+      </div>
+
+      <div id="selector-color-wrap">
+        <div id="selector-color-label">Elige tu color</div>
+        <div id="selector-color">
+          <button class="color-swatch sw-verde" data-color="verde" aria-label="Verde"></button>
+          <button class="color-swatch sw-violeta" data-color="violeta" aria-label="Violeta"></button>
+          <button class="color-swatch sw-azul" data-color="azul" aria-label="Azul"></button>
+          <button class="color-swatch sw-coral" data-color="coral" aria-label="Coral"></button>
+        </div>
+      </div>
+
+      <div id="tablero">
+        <div id="red-canvas">
+          <svg id="origen-base" viewBox="0 0 240 502" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <path d="M 114.3 16.3 L 114.3 422.2 L 99.3 428.7 L 94.0 428.7 L 91.1 426.7 L 91.1 397.4 L 91.1 419.0 L 85.4 419.4 L 83.8 418.2 L 83.8 393.8 L 85.8 393.4 L 76.5 387.7 L 67.5 379.9 L 66.7 369.8 L 48.0 377.5 L 1.6 405.6 L 0.0 408.4 L 0.0 419.0 L 1.2 420.6 L 0.8 438.9 L 2.0 441.8 L 57.8 500.7 L 181.4 502.0 L 185.9 498.7 L 238.8 438.5 L 240.0 407.2 L 238.8 403.9 L 204.6 384.4 L 177.4 371.8 L 162.3 368.1 L 161.9 362.8 L 156.2 364.9 L 133.0 382.8 L 136.7 383.2 L 136.7 397.8 L 137.1 383.2 L 141.2 377.9 L 148.5 373.4 L 153.8 373.8 L 153.8 404.3 L 142.8 412.5 L 142.8 424.7 L 136.7 425.1 L 136.7 414.9 L 136.7 427.5 L 135.5 428.7 L 130.2 428.7 L 114.7 421.8 Z" fill="#101018" stroke="#1c1c2e" stroke-width="1.5"/>
+            <path id="origen-relleno" d="M 107.8 0.0 L 103.7 1.6 L 103.7 15.1 L 91.1 17.5 L 89.5 19.1 L 89.9 67.1 L 70.8 95.2 L 71.2 132.2 L 77.3 134.2 L 77.3 139.1 L 72.0 141.2 L 83.4 152.9 L 83.4 158.2 L 72.0 174.9 L 75.7 177.4 L 75.7 182.2 L 70.8 184.3 L 72.4 217.6 L 64.7 230.6 L 65.1 264.8 L 67.5 266.4 L 66.7 272.9 L 84.2 286.8 L 84.2 325.8 L 67.9 348.6 L 67.9 379.9 L 78.1 387.7 L 80.5 388.1 L 84.2 392.1 L 84.2 418.2 L 91.5 421.0 L 91.9 427.1 L 96.8 429.2 L 111.9 423.1 L 118.4 423.1 L 133.0 429.2 L 142.4 424.7 L 142.4 412.5 L 153.4 404.3 L 153.8 366.5 L 162.3 362.0 L 162.7 325.8 L 159.5 320.5 L 159.5 314.8 L 162.7 310.8 L 162.7 293.3 L 144.8 277.8 L 144.8 272.5 L 160.3 258.3 L 160.7 229.4 L 143.2 211.9 L 143.2 184.3 L 150.9 176.9 L 151.3 172.1 L 164.7 155.4 L 160.7 153.4 L 160.7 148.5 L 165.2 146.0 L 165.2 109.0 L 172.9 100.1 L 173.3 69.2 L 167.6 67.1 L 167.6 62.2 L 173.3 60.2 L 140.3 4.5 L 125.3 2.4 L 121.2 0.4 Z" fill="#82C682" stroke="#0a0a0a" stroke-width="1.4"/>
+          </svg>
+        </div>
+      </div>
+
+      <div id="bandeja-wrap">
+        <div id="bandeja-label">Elige cualquier fragmento y arrástralo a tu origen.</div>
+        <div id="bandeja-placeholder" class="show">Elige tu color para ver tus fragmentos.</div>
+        <div id="bandeja"></div>
+      </div>
+
+      <div id="victoria-panel">
+        <h2>¡Red completada!</h2>
+        <p>Ascendiste sin tocar el vacío. Completaste la experiencia en <span class="pasos-final" id="victoria-pasos">0</span> pasos.</p>
+        <button id="btn-reiniciar">Jugar de nuevo</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="exp-footer-note">
+    <div class="nota-chip"><span class="dot" style="background:var(--verde)"></span>Verde</div>
+    <div class="nota-chip"><span class="dot" style="background:var(--violeta)"></span>Violeta</div>
+    <div class="nota-chip"><span class="dot" style="background:var(--azul)"></span>Azul</div>
+    <div class="nota-chip"><span class="dot" style="background:var(--coral)"></span>Coral</div>
+  </div>
+
 </div>
 
-<!-- ══ CTA DE VUELTA ══ -->
+<!-- ══════════ PANEL 2: gravedad lúdica ══════════ -->
+<div class="tab-panel" id="panel-exp2">
+
+  <div class="grav-wrap">
+    <div id="grav-stage">
+      <canvas id="grav-canvas"></canvas>
+      <div id="grav-label">enlace fatal — fragmentos</div>
+      <div id="grav-hint">mueve el cursor cerca de los fragmentos</div>
+      <div id="grav-cursor-dot"></div>
+      <div id="grav-toast"></div>
+
+      <div id="grav-intro">
+        <div class="eyebrow">Experimentación — gravedad</div>
+        <h2>Atrae los fragmentos. Si los juntas demasiado, se rompen.</h2>
+        <p>
+          Mueve el cursor cerca de las figuras para atraerlas. Mientras más se
+          acumulan, más se vuelven inestables — y se dispersan solas. No hay
+          puntos ni botones: solo mira qué pasa cuando algo crece demasiado
+          junto.
+        </p>
+        <button id="grav-start-btn">Empezar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <div class="exp-cta">
   <a href="index.html#interpretacion">Volver al sitio</a>
 </div>
 
-<!-- ══ FOOTER ══ -->
 <footer>
   <div class="footer-credit">
     <span class="footer-brand">ENLACE FATAL</span>
@@ -602,9 +769,33 @@ footer {
 </footer>
 
 <script>
+/* ══════════════════════════════════════
+   SELECTOR DE PESTAÑAS
+══════════════════════════════════════ */
+(function () {
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels = {
+    exp1: document.getElementById('panel-exp1'),
+    exp2: document.getElementById('panel-exp2')
+  };
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      tabBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      Object.keys(panels).forEach(function (key) {
+        panels[key].classList.toggle('active', key === btn.dataset.tab);
+      });
+    });
+  });
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════
+   EXPERIMENTACIÓN 1 — lógica original intacta
+══════════════════════════════════════ */
 (function(){
 
-  // ---------- Configuración del juego ----------
   const COLORES = [
     { id:'verde',   hex:'#82C682' },
     { id:'violeta', hex:'#8578CB' },
@@ -613,7 +804,7 @@ footer {
   ];
 
   const META_FRAGMENTOS = 9;
-  const RADIO_ANCLAJE = 34; // px, distancia máxima para "enganchar" al soltar
+  const RADIO_ANCLAJE = 34;
 
   const FORMAS = {
     garra: `<path d="M 28.5 3.0 L 10.6 21.1 L 10.6 29.1 L 11.2 29.6 L 28.3 29.6 L 28.9 30.2 L 28.9 34.7 L 28.3 35.3 L 11.0 35.5 L 10.6 35.9 L 10.6 44.4 L 47.0 81.0 L 59.0 80.8 L 59.4 78.5 L 59.2 68.6 L 59.8 67.8 L 63.9 67.6 L 64.7 68.2 L 64.7 80.4 L 65.3 81.0 L 71.3 81.0 L 89.4 62.7 L 89.4 40.9 L 89.0 40.3 L 71.5 40.3 L 70.9 39.8 L 70.7 21.1 L 53.0 3.0 Z" />`,
@@ -622,10 +813,8 @@ footer {
     tripode: `<path d="M 3.0 50.1 L 3.0 54.6 L 3.3 55.0 L 13.1 55.0 L 13.6 55.5 L 13.6 58.2 L 13.1 58.7 L 3.5 58.7 L 3.0 59.2 L 3.0 63.1 L 13.3 73.3 L 23.4 73.3 L 33.4 63.3 L 66.5 63.3 L 76.8 73.4 L 86.6 73.4 L 97.0 63.1 L 97.0 59.4 L 96.7 59.1 L 87.0 59.1 L 86.4 58.4 L 86.4 56.0 L 86.9 55.3 L 96.7 55.3 L 97.0 55.0 L 97.0 50.2 L 86.2 39.3 L 76.9 39.5 L 66.3 50.2 L 65.7 50.2 L 55.2 39.8 L 55.2 39.1 L 64.2 29.8 L 64.2 19.6 L 55.4 10.6 L 52.0 10.6 L 51.5 11.1 L 51.5 20.1 L 51.0 20.5 L 48.5 20.5 L 48.0 20.1 L 48.0 11.1 L 47.6 10.6 L 44.1 10.7 L 35.3 19.7 L 35.3 29.8 L 44.5 39.1 L 44.5 39.8 L 34.3 50.1 L 33.2 49.8 L 23.1 39.3 L 13.8 39.3 Z" />`
   };
   const NOMBRES_FORMA = ['garra', 'hueso', 'llave', 'tripode'];
-  const FORMA_W = 100, FORMA_H = 84; // viewBox local de cada fragmento
+  const FORMA_W = 100, FORMA_H = 84;
 
-  // Puntos de anclaje locales de cada forma (coords dentro del viewBox 100x84)
-  // 'angulo' = dirección en que "mira" la muesca hacia afuera (para orientar la rama siguiente)
   const ANCLAJES_FORMA = {
     garra:   [ {x:8,  y:33, angulo:180}, {x:62, y:78, angulo:100} ],
     hueso:   [ {x:50, y:5,  angulo:270}, {x:50, y:78, angulo:90}  ],
@@ -633,7 +822,6 @@ footer {
     tripode: [ {x:50, y:8,  angulo:270}, {x:8,  y:58, angulo:190}, {x:92, y:58, angulo:350} ]
   };
 
-  // Puntos de anclaje del tronco/origen (coords dentro del viewBox 240x502 del SVG de origen-base)
   const ANCLAJES_TORRE_LOCAL = [
     {x:163, y:57,  angulo:0},
     {x:70,  y:135, angulo:180},
@@ -645,19 +833,16 @@ footer {
   ];
   const TORRE_VB_W = 240, TORRE_VB_H = 502;
 
-  // ---------- Estado ----------
   let estado = {
     pasos: 0,
     colorJugador: null,
     bloqueado: false
   };
 
-  // anclajes: { id, x, y, angulo, libre } en coordenadas absolutas px dentro de #tablero
   let anclajes = [];
   let anclajeIdSeq = 0;
-  let origenAlturaActual = 310; // se recalcula en inicializarTorre()
+  let origenAlturaActual = 310;
 
-  // ---------- Referencias DOM ----------
   const hudPasos = document.getElementById('hud-pasos');
   const selectorColor = document.getElementById('selector-color');
   const bandeja = document.getElementById('bandeja');
@@ -675,7 +860,6 @@ footer {
     return COLORES.find(c => c.id === id);
   }
 
-  // ---------- Posicionar el origen en el centro del tablero y registrar sus anclajes ----------
   function inicializarTorre(){
     const tb = tablero.getBoundingClientRect();
     const origenAlto = Math.min(tb.height * 0.62, 360);
@@ -685,7 +869,7 @@ footer {
     origenBase.style.height = origenAlto + 'px';
 
     const cx = tb.width / 2;
-    const cy = tb.height / 2 + origenAlto * 0.18; // ligeramente abajo del centro para dejar espacio arriba
+    const cy = tb.height / 2 + origenAlto * 0.18;
     origenBase.style.left = (cx - origenAncho/2) + 'px';
     origenBase.style.top = (cy - origenAlto/2) + 'px';
 
@@ -700,7 +884,6 @@ footer {
     pintarPuntosAnclaje();
   }
 
-  // ---------- Pintar/actualizar los <div class="punto-anclaje"> en el canvas ----------
   function pintarPuntosAnclaje(){
     redCanvas.querySelectorAll('.punto-anclaje').forEach(el => el.remove());
     anclajes.filter(a => a.libre).forEach(a => {
@@ -735,7 +918,6 @@ footer {
     });
   }
 
-  // ---------- Selector de color de jugador ----------
   selectorColor.querySelectorAll('.color-swatch').forEach(btn => {
     btn.addEventListener('click', () => {
       if (estado.bloqueado) return;
@@ -748,7 +930,6 @@ footer {
     });
   });
 
-  // ---------- Construir bandeja: las 4 formas, todas en el color del jugador ----------
   function construirBandeja(){
     bandeja.innerHTML = '';
     if (!estado.colorJugador) {
@@ -775,7 +956,6 @@ footer {
     </svg>`;
   }
 
-  // ---------- Drag & drop con búsqueda de anclaje ----------
   function activarArrastre(el, color, forma){
     let ghost = null;
     let offsetX = 0, offsetY = 0;
@@ -806,7 +986,6 @@ footer {
     }
 
     function centroGhost(point){
-      // centro del fragmento fantasma en coords absolutas de pantalla
       return {
         cx: point.clientX - offsetX + (ghost.offsetWidth/2),
         cy: point.clientY - offsetY + (ghost.offsetHeight/2)
@@ -858,7 +1037,6 @@ footer {
     el.addEventListener('touchstart', onDown, {passive:false});
   }
 
-  // ---------- Rotar un punto (x,y) alrededor del origen por un ángulo en grados ----------
   function rotarPunto(x, y, anguloDeg){
     const rad = anguloDeg * Math.PI / 180;
     return {
@@ -867,38 +1045,25 @@ footer {
     };
   }
 
-  // ---------- Enlazar fragmento al anclaje elegido ----------
   function enlazarFragmento(color, forma, anclaje){
     estado.bloqueado = true;
     estado.pasos++;
 
-    // Tamaño visual del fragmento colocado en px, proporcional al tamaño real del origen
     const fragAncho = Math.max(34, Math.min(58, origenAlturaActual * 0.175));
     const fragAlto = fragAncho * (FORMA_H / FORMA_W);
     const escalaLocal = fragAncho / FORMA_W;
 
-    // Variación orgánica del ángulo final (± 18°) para que no todas las ramas salgan idénticas
     const variacion = (Math.random() * 36) - 18;
     const anguloFinal = anclaje.angulo + variacion;
 
-    // El punto de anclaje del NUEVO fragmento que se debe alinear con el punto padre
-    // es el anclaje local cuyo ángulo apunta "hacia el padre" (aproximamos: el más opuesto,
-    // o simplemente el primero de la forma si solo tiene uno relevante).
-    // Para mantenerlo simple y visualmente correcto, usamos el primer anclaje de la forma
-    // como "punto de unión" y centramos el fragmento de modo que ese punto caiga sobre el anclaje padre.
     const anclajesLocales = ANCLAJES_FORMA[forma];
-    const puntoUnionLocal = anclajesLocales[0]; // {x,y} en viewBox 100x84
+    const puntoUnionLocal = anclajesLocales[0];
 
-    // Centro local del viewBox
     const centroLocalX = FORMA_W/2, centroLocalY = FORMA_H/2;
-    // Vector desde el centro hasta el punto de unión, escalado
     const vx = (puntoUnionLocal.x - centroLocalX) * escalaLocal;
     const vy = (puntoUnionLocal.y - centroLocalY) * escalaLocal;
-    // Rotamos ese vector según el ángulo final, para saber dónde queda el punto de unión
-    // respecto al centro, una vez rotado el fragmento
     const vRot = rotarPunto(vx, vy, anguloFinal);
 
-    // El centro del fragmento debe ubicarse de modo que punto de unión rotado coincida con el anclaje padre
     const centroX = anclaje.x - vRot.x;
     const centroY = anclaje.y - vRot.y;
 
@@ -912,11 +1077,8 @@ footer {
     pieza.innerHTML = svgFragmento(forma, color.hex);
     redCanvas.appendChild(pieza);
 
-    // El anclaje usado ya no está libre
     anclaje.libre = false;
 
-    // Registrar los anclajes propios del nuevo fragmento, en coordenadas absolutas,
-    // saltando el que ya se usó para unirse (el primero)
     anclajesLocales.slice(1).forEach(a => {
       const lx = (a.x - centroLocalX) * escalaLocal;
       const ly = (a.y - centroLocalY) * escalaLocal;
@@ -971,14 +1133,297 @@ footer {
 
   btnReiniciar.addEventListener('click', reiniciar);
 
-  // ---------- Inicializar ----------
   inicializarTorre();
   window.addEventListener('resize', () => {
-    // Reposicionar el origen y sus anclajes libres originales si la ventana cambia de tamaño.
-    // Para simplicidad y estabilidad de la red ya construida, solo reajustamos en estado inicial (sin fragmentos).
     if (estado.pasos === 0) inicializarTorre();
   });
 
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════
+   EXPERIMENTACIÓN 2 — gravedad lúdica
+   Paleta adaptada a los hex reales del sitio
+══════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  var PLAYER_COLORS = ["#82C682", "#8578CB", "#0179D0", "#D66C5D"];
+  var SHAPES = ["diamond", "triangle", "hex", "bar"];
+
+  var canvas = document.getElementById("grav-canvas");
+  var ctx = canvas.getContext("2d");
+  var hint = document.getElementById("grav-hint");
+  var cursorDot = document.getElementById("grav-cursor-dot");
+  var introEl = document.getElementById("grav-intro");
+  var startBtn = document.getElementById("grav-start-btn");
+  var toastEl = document.getElementById("grav-toast");
+  var stageEl = document.getElementById("grav-stage");
+
+  var TOAST_MESSAGES = [
+    "demasiado juntos: se rompió",
+    "el grupo no resistió su propio peso",
+    "crecer junto también fragiliza",
+    "se dispersó antes de colapsar del todo"
+  ];
+  var toastTimer = null;
+  var lastToastAt = 0;
+  function showToast() {
+    var now = performance.now();
+    if (now - lastToastAt < 900) return;
+    lastToastAt = now;
+    var msg = TOAST_MESSAGES[Math.floor(Math.random() * TOAST_MESSAGES.length)];
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove("show");
+    }, 1400);
+  }
+
+  startBtn.addEventListener("click", function () {
+    introEl.classList.add("hide");
+  });
+
+  var W = 0, H = 0;
+  function resize() {
+    var rect = stageEl.getBoundingClientRect();
+    W = rect.width;
+    H = rect.height;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  }
+  window.addEventListener("resize", resize);
+
+  var mouse = { x: -9999, y: -9999, active: false };
+  var hintShown = true;
+
+  function updateMouse(x, y) {
+    mouse.x = x; mouse.y = y; mouse.active = true;
+    if (hintShown) {
+      hintShown = false;
+      hint.classList.add("fade");
+    }
+    cursorDot.style.left = x + "px";
+    cursorDot.style.top = y + "px";
+  }
+
+  stageEl.addEventListener("mousemove", function (e) {
+    var rect = stageEl.getBoundingClientRect();
+    updateMouse(e.clientX - rect.left, e.clientY - rect.top);
+  });
+  stageEl.addEventListener("touchmove", function (e) {
+    e.preventDefault();
+    var rect = stageEl.getBoundingClientRect();
+    var t = e.touches[0];
+    updateMouse(t.clientX - rect.left, t.clientY - rect.top);
+  }, { passive: false });
+  stageEl.addEventListener("mouseleave", function () { mouse.active = false; });
+  stageEl.addEventListener("touchend", function () { mouse.active = false; });
+
+  var NUM_FRAGMENTS = 12;
+  var fragments = [];
+
+  function spawnFragment(i) {
+    return {
+      id: i,
+      shape: SHAPES[i % SHAPES.length],
+      color: PLAYER_COLORS[i % PLAYER_COLORS.length],
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      size: 16 + Math.random() * 14,
+      rot: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 0.01,
+      driftPhase: Math.random() * Math.PI * 2,
+      driftSpeed: 0.0006 + Math.random() * 0.0008,
+      jitter: 0,
+      dispersing: 0
+    };
+  }
+
+  function initFragments() {
+    fragments = [];
+    for (var i = 0; i < NUM_FRAGMENTS; i++) fragments.push(spawnFragment(i));
+  }
+
+  function drawShape(f) {
+    var s = f.size;
+    ctx.save();
+    ctx.translate(f.x, f.y);
+    ctx.rotate(f.rot);
+
+    var glowAmt = 8 + f.jitter * 14;
+    ctx.shadowColor = f.color;
+    ctx.shadowBlur = glowAmt;
+    ctx.fillStyle = f.color;
+
+    if (f.shape === "diamond") {
+      ctx.beginPath();
+      ctx.moveTo(0, -s / 2);
+      ctx.lineTo(s / 2, 0);
+      ctx.lineTo(0, s / 2);
+      ctx.lineTo(-s / 2, 0);
+      ctx.closePath();
+      ctx.fill();
+    } else if (f.shape === "triangle") {
+      ctx.beginPath();
+      ctx.moveTo(0, -s / 2);
+      ctx.lineTo(s / 2, s / 2);
+      ctx.lineTo(-s / 2, s / 2);
+      ctx.closePath();
+      ctx.fill();
+    } else if (f.shape === "hex") {
+      ctx.beginPath();
+      for (var a = 0; a < 6; a++) {
+        var ang = (Math.PI / 3) * a - Math.PI / 2;
+        var px = Math.cos(ang) * (s / 2);
+        var py = Math.sin(ang) * (s / 2);
+        if (a === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fill();
+    } else {
+      ctx.fillRect(-s * 0.55, -s * 0.18, s * 1.1, s * 0.36);
+    }
+    ctx.restore();
+  }
+
+  var GRAVITY_RADIUS = 220;
+  var GRAVITY_STRENGTH = 0.045;
+  var CROWD_RADIUS = 42;
+  var DISPERSE_NEIGHBORS = 4;
+
+  function step(dt) {
+    fragments.forEach(function (f) {
+      f.driftPhase += f.driftSpeed * dt;
+      var driftX = Math.cos(f.driftPhase) * 0.06;
+      var driftY = Math.sin(f.driftPhase * 1.3) * 0.06;
+
+      var gx = 0, gy = 0;
+      if (mouse.active) {
+        var dx = mouse.x - f.x;
+        var dy = mouse.y - f.y;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        if (dist < GRAVITY_RADIUS) {
+          var pull = (1 - dist / GRAVITY_RADIUS) * GRAVITY_STRENGTH;
+          gx = (dx / dist) * pull;
+          gy = (dy / dist) * pull;
+        }
+      }
+
+      f.vx += gx + driftX * 0.02;
+      f.vy += gy + driftY * 0.02;
+
+      var neighbors = 0;
+      fragments.forEach(function (other) {
+        if (other === f) return;
+        var ddx = other.x - f.x;
+        var ddy = other.y - f.y;
+        if (ddx * ddx + ddy * ddy < CROWD_RADIUS * CROWD_RADIUS) neighbors++;
+      });
+
+      if (neighbors >= DISPERSE_NEIGHBORS) {
+        f.jitter = Math.min(f.jitter + 0.035, 1);
+      } else {
+        f.jitter = Math.max(f.jitter - 0.02, 0);
+      }
+
+      if (f.jitter > 0) {
+        f.vx += (Math.random() - 0.5) * f.jitter * 0.9;
+        f.vy += (Math.random() - 0.5) * f.jitter * 0.9;
+      }
+
+      if (f.jitter >= 1 && f.dispersing <= 0) {
+        var avgX = 0, avgY = 0, count = 0;
+        fragments.forEach(function (other) {
+          var ddx = other.x - f.x;
+          var ddy = other.y - f.y;
+          if (ddx * ddx + ddy * ddy < CROWD_RADIUS * CROWD_RADIUS * 2.2) {
+            avgX += other.x; avgY += other.y; count++;
+          }
+        });
+        if (count > 0) {
+          avgX /= count; avgY /= count;
+          var awayX = f.x - avgX;
+          var awayY = f.y - avgY;
+          var awayDist = Math.sqrt(awayX * awayX + awayY * awayY) || 1;
+          f.vx += (awayX / awayDist) * 4.2;
+          f.vy += (awayY / awayDist) * 4.2;
+        } else {
+          f.vx += (Math.random() - 0.5) * 6;
+          f.vy += (Math.random() - 0.5) * 6;
+        }
+        f.dispersing = 26;
+        f.jitter = 0;
+        showToast();
+      }
+
+      if (f.dispersing > 0) f.dispersing -= 1;
+
+      f.vx *= 0.965;
+      f.vy *= 0.965;
+
+      f.x += f.vx;
+      f.y += f.vy;
+      f.rot += f.rotSpeed + f.jitter * (Math.random() - 0.5) * 0.05;
+
+      var margin = 36;
+      if (f.x < margin) f.vx += (margin - f.x) * 0.004;
+      if (f.x > W - margin) f.vx -= (f.x - (W - margin)) * 0.004;
+      if (f.y < margin) f.vy += (margin - f.y) * 0.004;
+      if (f.y > H - margin) f.vy -= (f.y - (H - margin)) * 0.004;
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    ctx.strokeStyle = "rgba(130, 198, 130, 0.03)";
+    ctx.lineWidth = 1;
+    var gridSize = 48;
+    for (var x = 0; x < W; x += gridSize) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (var y = 0; y < H; y += gridSize) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+
+    if (mouse.active) {
+      var grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, GRAVITY_RADIUS);
+      grad.addColorStop(0, "rgba(255,255,255,0.05)");
+      grad.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, GRAVITY_RADIUS, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    fragments.forEach(drawShape);
+  }
+
+  var lastT = null;
+  var rafId = null;
+  function loop(ts) {
+    if (lastT == null) lastT = ts;
+    var dt = Math.min(ts - lastT, 48);
+    lastT = ts;
+    step(dt);
+    draw();
+    rafId = requestAnimationFrame(loop);
+  }
+
+  resize();
+  initFragments();
+  rafId = requestAnimationFrame(loop);
+
+  // re-resize when its tab becomes visible (canvas needs real dimensions)
+  document.querySelector('.tab-btn[data-tab="exp2"]').addEventListener('click', function () {
+    setTimeout(resize, 0);
+  });
 })();
 </script>
 
